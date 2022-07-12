@@ -1867,8 +1867,6 @@ namely
 
 ![](./image/123.png)
 
-
-
 ```py
 def corr2d_multi_in_out(X, K):
     # 迭代“K”的第0个维度，每次都对输入“X”执行互相关运算。
