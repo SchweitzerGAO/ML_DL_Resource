@@ -6,7 +6,7 @@
 
 The framework of a paper in AI
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-07-02-21-01-42-image.png" title="" alt="" width="253">
+<img title="" src="./image/1.png" alt="" width="253">
 
 a 3-pass approach to reading a paper
 
@@ -27,5 +27,3 @@ Scanning: clarify the methods; mark the unfamiliar papers(read them if this pape
 carefully read all of the sentences of the paper. Make sure that I understand all the sentences and the intention of this. Imagine if I were the author how I would do that.
 
 ## 2. AlexNet
-
-

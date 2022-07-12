@@ -1,5 +1,3 @@
-# Dive into DL note
-
 [TOC]
 
 ## Part 0: DL Basis
@@ -8,7 +6,7 @@
 
 **An AI map:**
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220421155713952.png" alt="image-20220421155713952" style="zoom:50%;" />
+<img title="" src="./image/1.png" alt="image-20220421155713952" style="zoom:50%;">
 
 **Some fields of DL**
 
@@ -16,33 +14,33 @@
 
 [ImageNet](http://www.image-net.org):
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220422105705735.png" alt="image-20220422105705735" style="zoom:50%;" />
+<img title="" src="./image/2.png" alt="image-20220422105705735" style="zoom:50%;">
 
 2. object detection and segmentation
 
 [RCNN](https://github.com/matterport/Mask_RCNN)
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220422110734414.png" alt="image-20220422110734414" style="zoom:50%;" />
+<img title="" src="./image/3.png" alt="image-20220422110734414" style="zoom:50%;">
 
 3. [style transfer](https://github.com/zhanghang1989/MXNet-Gluon-Style-Transfer/)(样式迁移)
    
-   <img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220422110756221.png" alt="image-20220422110756221" style="zoom:50%;" />
+   <img title="" src="./image/4.png" alt="image-20220422110756221" style="zoom:50%;">
 
 4. face composition
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220422110929029.png" alt="image-20220422110929029" style="zoom:50%;" />
+<img title="" src="./image/5.png" alt="image-20220422110929029" style="zoom:50%;">
 
 5. [image generation by description](https://openai.com/blog/dall-e/)
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220422112851284.png" alt="image-20220422112851284" style="zoom:50%;" />
+<img title="" src="./image/6.png" alt="image-20220422112851284" style="zoom:50%;">
 
 6. text generation
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220422113341404.png" alt="image-20220422113341404" style="zoom:50%;" />
+<img title="" src="./image/7.png" alt="image-20220422113341404" style="zoom:50%;">
 
 7. self-driving
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220422113436434.png" alt="image-20220422113436434" style="zoom:50%;" />
+<img title="" src="./image/8.png" alt="image-20220422113436434" style="zoom:50%;">
 
 ### 2. Data processing using Pytorch
 
@@ -50,11 +48,11 @@
 
 1. high-dimension array sample:
 
-![image-20220424113901699](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424113901699.png)
+![image-20220424113901699](./image/9.png)
 
 2. visit elements:
 
-![image-20220424115009971](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424115009971.png)
+![image-20220424115009971](./image/10.png)
 
 3. implementation of data operation:
 
@@ -89,19 +87,19 @@ a.item() # convert 1*1 tensor to python scalar
 
 1. No need to manually compute all the dimensions when using `reshape` we can use -1 to leave the calculation for the computer.
 
-![image-20220424131121057](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424131121057.png)
+![image-20220424131121057](./image/11.png)
 
 2. fundamental operators:
 
-![image-20220424185058444](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424185058444.png)
+![image-20220424185058444](./image/12.png)
 
 3. broadcasting (prone to misuse)
 
-![image-20220424191633157](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424191633157.png) 
+![image-20220424191633157](./image/13.png) 
 
 4. saving memory
 
-![image-20220424192510189](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424192510189.png)
+![image-20220424192510189](./image/14.png)
 
 do the operation **in place!**
 
@@ -115,15 +113,15 @@ do the operation **in place!**
 
 fill the N/A with the average of known data
 
-![image-20220424200937727](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424200937727.png)
+![image-20220424200937727](./image/15.png)
 
 for the discrete value, we consider NaN as a class:
 
-![image-20220424201405069](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424201405069.png)
+![image-20220424201405069](./image/16.png)
 
 2. convert to tensor
 
-![image-20220424201835134](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424201835134.png)
+![image-20220424201835134](./image/17.png)
 
 ### 3. Linear Algebra
 
@@ -131,31 +129,31 @@ for the discrete value, we consider NaN as a class:
 
 1. matrix multiplication is twisting the space:
 
-![image-20220424205658226](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424205658226.png)
+![image-20220424205658226](./image/18.png)
 
 2. norms of matrix
 
-![image-20220424210108737](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424210108737.png)
+![image-20220424210108737](./image/19.png)
 
 3. symmetric & anti-symmetric
 
-![image-20220424210309959](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424210309959.png)
+![image-20220424210309959](./image/20.png)
 
 4. positive-definite:
 
-![image-20220424210441266](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424210441266.png)
+![image-20220424210441266](./image/21.png)
 
 5. orthogonal matrix & permutation matrix:
 
-![image-20220424210618359](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424210618359.png)
+![image-20220424210618359](./image/22.png)
 
 example of permutation matrix:
 
-![image-20220424210816782](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424210816782.png)
+![image-20220424210816782](./image/23.png)
 
 6. eigenvalue & eigen-vector
 
-![image-20220424210943410](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220424210943410.png)
+![image-20220424210943410](./image/24.png)
 
 #### b. Pytorch implementation
 
@@ -183,7 +181,7 @@ torch.norm() # default compute L2-norm of a vector or the F-norm of a matrix
 
 1. sum with dimension kept(set `keepdims=True`) then we can use broadcasting:
 
-![image-20220425122059938](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425122059938.png)
+![image-20220425122059938](./image/25.png)
 
 2. cumulative sum: keep dimension, computes the cumulative sum of a tensor
 
@@ -193,7 +191,7 @@ torch.norm() # default compute L2-norm of a vector or the F-norm of a matrix
 
 1. scalar derivative
 
-![image-20220425154719805](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425154719805.png)
+![image-20220425154719805](./image/26.png)
 
 2. gradient
 
@@ -201,77 +199,79 @@ numerator layout & denominator layout:
 
 numerator layout is used below
 
-![image-20220425155930812](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425155930812.png)
+![image-20220425155930812](./image/27.png)
 
-1. overview
+3. overview
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425160340005.png" alt="image-20220425160340005" style="zoom:50%;" />
+<img title="" src="./image/29.png" alt="image-20220425160340005" style="zoom:50%;">
 
-2. scalar/**vector**
+4. scalar/**vector**
 
 <img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425160242447.png" alt="image-20220425160242447" style="zoom:50%;" />
 
 examples
 
-![image-20220425160744483](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425160744483.png)
+![image-20220425160744483](./image/30.png)
 
-3. **vector**/scalar
+5. **vector**/scalar
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425161446377.png" alt="image-20220425161446377" style="zoom:50%;" />
+<img title="" src="image/31.png" alt="image-20220425161446377" style="zoom:50%;">
 
-4. **vector**/**vector**
+6. **vector**/**vector**
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425162405273.png" alt="image-20220425162405273" style="zoom:50%;" />
+<img title="" src="./image/32.png" alt="image-20220425162405273" style="zoom:50%;">
 
 examples:
 
-![image-20220425162623120](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425162623120.png)
+![image-20220425162623120](./image/33.png)
 
 expand to matrix input:
 
-![image-20220425162941309](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425162941309.png)
+![image-20220425162941309](./image/34.png)
 
 #### b. auto gradient
 
 1. chain law of derivative
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425164107776.png" alt="image-20220425164107776" style="zoom:50%;" />
+<img title="" src="./image/35.png" alt="image-20220425164107776" style="zoom:50%;">
 
 example:
 
-1. ![image-20220425164423783](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425164423783.png)
+1.
+
+![image-20220425164423783](./image/36.png)
 
 2.
 
-![image-20220425164441603](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425164441603.png)
+![image-20220425164441603](./image/37.png)
 
 2. auto gradient
 
 the principle: computation graph(计算图)
 
-![image-20220425165056649](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425165056649.png)
+![image-20220425165056649](./image/38.png)
 
 explicitly constructed in TF/MXNet
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425165333694.png" alt="image-20220425165333694" style="zoom:50%;" />
+<img title="" src="./image/39.png" alt="image-20220425165333694" style="zoom:50%;">
 
 implicitly constructed in torch/MXNet
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425165411298.png" alt="image-20220425165411298" style="zoom:50%;" />
+<img title="" src="./image/40.png" alt="image-20220425165411298" style="zoom:50%;">
 
 modes of autograd:
 
 FP(Forward Propagation) & **BP(Backward Propagation)**
 
-![image-20220425170900157](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425170900157.png)
+![image-20220425170900157](./image/41.png)
 
 **BP actually prune the unnecessary branches!**
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425170329946.png" alt="image-20220425170329946" style="zoom:50%;" />
+<img title="" src="./image/42.png" alt="image-20220425170329946" style="zoom:50%;">
 
 complexity comparison:
 
-![image-20220425170607767](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220425170607767.png)
+![image-20220425170607767](./image/43.png)
 
 #### c. Pytorch implementation
 
@@ -305,28 +305,28 @@ u = y,detach()
 
 1. joint probability
 
-![image-20220426225816446](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220426225816446.png)
+![image-20220426225816446](./image/45.png)
 
 2. conditional probability
 
-![image-20220426225949202](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220426225949202.png)
+![image-20220426225949202](./image/46.png)
 
 3. Bayes'  Theorem
 
-![image-20220426230211100](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220426230211100.png)
+![image-20220426230211100](./image/47.png)
 
 4. marginalization
 
-![image-20220426230436015](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220426230436015.png)
+![image-20220426230436015](./image/48.png)
 
 5. independence
 
-![image-20220426230730248](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220426230730248.png)
+![image-20220426230730248](./image/49.png)
 
 6. [Here](https://zh-v2.d2l.ai/chapter_preliminaries/probability.html#conditional-prob-d2) is an example to apply all the things above and show the probability is contrast to the gut feeling
 7. expectation & square deviation
 
-![image-20220426232450426](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220426232450426.png)
+![image-20220426232450426](./image/50.png)
 
 8. **likelihood & MLE**
 
@@ -334,13 +334,13 @@ a. likelihood
 
 likelihood is equal to probability numerically, but the difference is:
 
-![image-20220427110621257](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220427110621257.png)
+![image-20220427110621257](./image/51.png)
 
 Likelihood is **estimating the parameters** according to the observation of variables. it itself is **still a kind of probability**
 
 Why likelihood is equal to probability numerically?
 
-![image-20220427161108451](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220427161108451.png)
+![image-20220427161108451](./image/52.png)
 
 So we can also consider likelihood above as a function and draw the graph below:
 
@@ -348,7 +348,7 @@ So we can also consider likelihood above as a function and draw the graph below:
 
 b. MLE(Maximum Likelihood Estimation)
 
-![image-20220427163805000](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220427163805000.png)
+![image-20220427163805000](./image/54.png)
 
 Actually as far as I know, linear regression and logistic regression are essentially MLE problems
 
@@ -358,11 +358,11 @@ Actually as far as I know, linear regression and logistic regression are essenti
 
 1. linear model:
 
-![image-20220426212348978](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220426212348978.png)
+![image-20220426212348978](./image/55.png)
 
 it can be considered as a 1-layer NN:
 
-![image-20220426212514519](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220426212514519.png)
+![image-20220426212514519](./image/56.png)
 
 2. normal distribution and MSE
 
@@ -408,11 +408,11 @@ a. gradient descent
 
 basic steps:
 
-![image-20220427221617966](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220427221617966.png)
+![image-20220427221617966](./image/57.png)
 
 mini-batch GD(default optimization algorithm in GD)
 
-![image-20220427223700454](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220427223700454.png)
+![image-20220427223700454](./image/58.png)
 
 #### b. Pytorch implementation from scratch
 
@@ -470,21 +470,21 @@ for epoch in range(num_epochs):
 
 1. from regression to classification
 
-![image-20220503223643158](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220503223643158.png)
+![image-20220503223643158](./image/59.png)
 
 2. encoding
 
 a. for gt:
 
-![image-20220503225148399](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220503225148399.png)
+![image-20220503225148399](./image/60.png)
 
 b. for prediction:
 
-![image-20220503224308347](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220503224308347.png)
+![image-20220503224308347](./image/61.png)
 
 3. cross entropy
 
-![image-20220503225742465](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220503225742465.png)
+![image-20220503225742465](./image/62.png)
 
 **MLE deduction**
 
@@ -542,27 +542,27 @@ one of the basic theorems in information theory points out that to encode a rand
 
 2. what is cross entropy actually?
 
-![image-20220504110450425](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220504110450425.png)
+![image-20220504110450425](./image/63.png)
 
 #### c. commonly used loss functions
 
 1. L2 loss
 
-![image-20220504123605693](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220504123605693.png)
+![image-20220504123605693](./image/64.png)
 
 2. L1 loss
 
-![image-20220504125434740](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220504125434740.png)
+![image-20220504125434740](./image/65.png)
 
 3. Huber's robust loss
 
-![image-20220504152654297](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220504152654297.png)
+![image-20220504152654297](./image/66.png)
 
 #### d. Pytorch from scratch
 
 1. dataset Fashion-MNIST
 
-![image-20220504164643787](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220504164643787.png)
+![image-20220504164643787](./image/67.png)
 
 2. softmax implementation
 
@@ -701,7 +701,7 @@ def train_ch3(net, train_iter, test_iter, loss, num_epochs, updater):  #@save n 
     assert test_acc <= 1 and test_acc > 0.7, test_acc
 ```
 
-![image-20220505223013697](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220505223013697.png)
+![image-20220505223013697](./image/68.png)
 
 g. prediction
 
@@ -747,7 +747,7 @@ num_epochs = 10
 d2l.train_ch3(net, train_iter, test_iter, loss, num_epochs, trainer)
 ```
 
-![image-20220505223047988](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220505223047988.png)
+![image-20220505223047988](./image/69.png)
 
 #### f. re-estimate the implementation of scratch softmax
 
@@ -781,21 +781,21 @@ $$
 
 1. MLP
 
-![image-20220508215529993](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220508215529993.png)
+![image-20220508215529993](./image/70.png)
 
-![image-20220508101400223](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220508101400223.png)
+![image-20220508101400223](./image/71.png)
 
 how to train an original perceptron
 
-![image-20220508120303605](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220508120303605.png)
+![image-20220508120303605](./image/72.png)
 
 convergence theorem for MLP
 
-<img src="C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220508145914352.png" alt="image-20220508145914352" style="zoom:50%;" />
+<img title="" src="./image/73.png" alt="image-20220508145914352" style="zoom:50%;" data-align="inline">
 
 a linear MLP **cannot solve XOR problems**
 
-![image-20220508213607436](C:\Users\CharlesGao\AppData\Roaming\Typora\typora-user-images\image-20220508213607436.png)
+![image-20220508213607436](./image/74.png)
 
 ### b. MLP from scratch
 
@@ -849,17 +849,17 @@ The main theoretical issues can be found in notes of Shuang Liang and Andrew Ng
 
 the capacity of the model shall be initially large enough and then decrease this (by weight decay or dropout) to get the lowest generalization error
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-26-22-28-52-image.png)
+![](./image/75.png)
 
 The circled '1' s are biases.
 
 *VC dimension*
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-26-22-33-02-image.png)
+![](./image/76.png)
 
 some results
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-26-22-34-37-image.png)
+![](./image/77.png)
 
 not commonly used in deep learning, as this is not accurate and hard to compute
 
@@ -869,19 +869,19 @@ not commonly used in deep learning, as this is not accurate and hard to compute
 
 1. hard limit
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-26-22-54-10-image.png)
+![](./image/79.png)
 
 2. soft limit
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-26-22-57-26-image.png)
+![](./image/80.png)
 
 3. visualization of affect of penalty to the optimization
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-26-23-07-39-image.png)
+![](./image/81.png)
 
 4. update of the params
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-26-23-10-50-image.png)
+![](./image/83.png)
 
 5. Pytorch implementation
 
@@ -908,11 +908,11 @@ L1 performs better than L2:
 
 L2:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-27-15-17-08-image.png)
+![](./image/84.png)
 
 L1:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-27-15-19-34-image.png)
+![](./image/85.png)
 
 (2) concise
 
@@ -949,11 +949,11 @@ The expectance of $h^\prime$ is equal to that of $h$
 
 Dropout is usually used at the output point of hidden layers:
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-06-27-15-57-12-image.png" title="" alt="" width="329">
+<img title="" src="./image/87.png" alt="" width="525">
 
 The visualization
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-27-15-55-10-image.png)
+![](./image/86.png)
 
 In inference, dropout outputs the same thing as the input.
 
@@ -1037,7 +1037,7 @@ net.apply(init_weights)
 
 ### 11. Example of A Computation Graph for BP
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-27-16-43-50-image.png)
+![](./image/88.png)
 
 This graph shows how BP is performed.
 
@@ -1049,27 +1049,27 @@ This graph shows how BP is performed.
 
 This will be very large
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-28-11-05-54-image.png)
+![](./image/89.png)
 
 This will be very large
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-28-11-07-54-image.png)
+![](./image/90.png)
 
 problems caused by gradient boom
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-28-12-08-40-image.png)
+![](./image/91.png)
 
 2. vanish
 
 if we use sigmoid as the activation function:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-28-12-11-11-image.png)
+![](./image/92.png)
 
 at the endpoints of the gradient, the value is small
 
 problems:
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-06-28-12-14-00-image.png" title="" alt="" width="519">
+<img title="" src="./image/93.png" alt="" width="519">
 
 We need to alleviate these problems:
 
@@ -1077,35 +1077,33 @@ We need to alleviate these problems:
 
 some approaches to solve questions above:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-28-12-18-01-image.png)
+![](./image/94.png)
 
 The third one is the topic of this part.
 
 Need to: regard the output and the weight of each layer as a random variant, the expectance=0 and the variance is constant
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-28-12-22-41-image.png)
+![](./image/95.png)
 
 Approaches:
 
 1. weight initialization
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-06-28-12-48-04-image.png" title="" alt="" width="480">
+<img title="" src="./image/96.png" alt="" width="480">
 
 example:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-28-12-57-20-image.png)
+![](./image/97.png)
 
-The forward variance:
-
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-06-28-15-29-56-image.png)
+![](./image/98.png)
 
 backward expectance & variance
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-06-28-15-42-13-image.png" title="" alt="" width="590">
+<img title="" src="./image/99.png" alt="" width="590">
 
 Xavier initialization:
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-06-28-17-07-01-image.png" title="" alt="" width="520">
+<img title="" src="./image/100.png" alt="" width="520">
 
 2. activation function
 
@@ -1113,15 +1111,15 @@ example: linear activation function
 
 forward:
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-06-29-10-55-47-image.png" title="" alt="" width="518">
+<img title="" src="./image/101.png" alt="" width="518">
 
 backward:
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-06-29-11-08-04-image.png" title="" alt="" width="493">
+<img title="" src="./image/102.png" alt="" width="493">
 
 using the results above, we can check the activation functions commonly used (by Taylor expansion):
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-06-29-11-13-28-image.png" title="" alt="" width="523">
+<img title="" src="./image/104.png" alt="" width="595">
 
 It can be seen that the results cannot be satisfied with sigmoid function, so we can scale it to $4*\text{sigmoid}(x)-2$
 
@@ -1313,7 +1311,7 @@ The searching space can be modified and some feature engineering can be done to 
 
 The best score now is 0.21744
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-07-01-23-07-15-image.png" title="" alt="" width="421">
+<img title="" src="./image/105.png" alt="" width="634">
 
 #### 2. other methods
 
@@ -1339,7 +1337,7 @@ TBD
 
 #### 5. about autoML
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-02-20-57-07-image.png)
+![](./image/106.png)
 
 ## Part 1: CNN
 
@@ -1353,13 +1351,13 @@ from small to big:
 
 layer->block->model
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-03-12-20-51-image.png)
+![](./image/108.png)
 
 **2. another implementation of self-defined MLP**
 
 We need to provide 5 basic functions in this part:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-03-12-28-59-image.png)
+![](./image/109.png)
 
 ```py
 class MLP(nn.Module):
@@ -1699,27 +1697,27 @@ The energy consumption-price diagram:
 
 The problem of MLP
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-06-10-14-17-image.png)
+![](./image/110.png)
 
 2 principles:
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-07-06-10-20-29-image.png" title="" alt="" width="500">
+<img title="" src="./image/111.png" alt="" width="500">
 
 from MLP to convolutional layer
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-06-10-25-04-image.png)
+![](image/112.png)
 
 expansion: the weight from 2-D to 4-D to ensure every one of the pixels has its corresponding hidden unit.
 
 **using principle #1: translation invariant**
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-06-10-31-47-image.png)
+![](./image/113.png)
 
 This makes the weight shared among some elements
 
 **using principle #2**
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-07-06-11-22-55-image.png" title="" alt="" width="407">
+<img title="" src="./image/114.png" alt="" width="521">
 
 where: $v_{a,b}$ is the convolutional kernel
 
@@ -1729,7 +1727,7 @@ Thus, by applying principles #1 and #2 to the FC layer, we get the convolutional
 
 **convolution calculation**
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-07-06-11-59-31-image.png" title="" alt="" width="329">
+<img title="" src="image/115.png" alt="" width="459">
 
 ```py
 def corr2d(X, K):  #@save
@@ -1744,21 +1742,21 @@ def corr2d(X, K):  #@save
 
 **2-D convolutional layer**
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-06-12-02-57-image.png)
+![](./image/116.png)
 
 **examples**
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-07-06-12-13-43-image.png" title="" alt="" width="452">
+<img title="" src="./image/117.png" alt="" width="452">
 
 **cross-correlation vs. convolution**
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-06-12-15-37-image.png)
+![](./image/118.png)
 
 The circled part is flip part of convolution
 
 **1-D and 3-D convolution**
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-06-12-17-21-image.png)
+![](./image/119.png)
 
 *kernel and bias are learnable parameters*
 
@@ -1841,11 +1839,11 @@ $$
 
 The convolution is computed by:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-09-10-00-43-image.png)
+![](./image/120.png)
 
 namely:
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-07-09-10-58-38-image.png" title="" alt="" width="610">
+<img title="" src="./image/121.png" alt="" width="610">
 
 It can be implemented by:
 
@@ -1867,9 +1865,9 @@ $$
 
 namely
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-09-11-01-48-image.png)
+![](./image/123.png)
 
-This can be implemented by:(using `torch.stack()`)
+
 
 ```py
 def corr2d_multi_in_out(X, K):
@@ -1880,7 +1878,7 @@ def corr2d_multi_in_out(X, K):
 
 Different output channels is capable of recognize different patterns:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-09-11-13-44-image.png)
+![](./image/124.png)
 
 (6 channels, 6 patterns)
 
@@ -1888,7 +1886,7 @@ and input channels combine them together with weight
 
 _1*1 convolution_
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-09-11-31-24-image.png)
+![](./image/125.png)
 
 functions of 1*1 convolution:
 
@@ -1915,7 +1913,7 @@ def corr2d_multi_in_out_1x1(X, K):
 
 The size of each param:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-09-11-49-41-image.png)
+![](./image/127.png)
 
 **ONLY the number of output channel** is a hyper-parameter of convolutional layer
 
@@ -1931,15 +1929,15 @@ conv = nn.conv2d(in_channels,out_channels,kernel_size,padding,stride)
 
 convolution is sensitive with position:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-10-09-09-35-image.png)
+![](./image/128.png)
 
 *max-pooling*
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-10-09-14-15-image.png)
+![](./image/129.png)
 
 *how pooling solves the problem of translation-invariant*
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-10-09-35-47-image.png)
+![](./image/131.png)
 
 Pooling is tolerant of 1-pixel translation in this example
 
@@ -1951,11 +1949,11 @@ learnable parameters: **None**
 
 the size of output = the size of input
 
-<img src="file:///C:/Users/CharlesGao/AppData/Roaming/marktext/images/2022-07-10-09-49-28-image.png" title="" alt="" width="488">
+<img title="" src="./image/132.png" alt="" width="488">
 
 *average-pooling*
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-10-09-53-24-image.png)
+![](./image/133.png)
 
 This can be implemented by:
 
@@ -1982,13 +1980,13 @@ pool = nn.MaxPool2d(kernel_size,stride,padding)
 
 a typical framework of CNN:
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-11-11-18-08-image.png)
+![](./image/135.png)
 
 ### 3. Modern CNN
 
 #### a. LeNet
 
-![](C:\Users\CharlesGao\AppData\Roaming\marktext\images\2022-07-11-10-59-23-image.png)
+![](./image/134.png)
 
 This can be implemented by:
 
@@ -2071,11 +2069,43 @@ def train_ch6(net, train_iter, test_iter, num_epochs, lr, device):
           f'on {str(device)}')
 ```
 
+#### b. AlexNet
 
+![](./image/136.png)
 
+main progress:
 
+- dropout
 
+- ReLU
 
+- MaxPooling
+
+- The change of methodology of CV
+
+**AlexNet framework**
+
+1. the input and the first conv-pool layer:
+
+<img title="" src="./image/137.png" alt="" width="536">
+
+2. The second conv-pool layer and the added 3*conv-pool layer
+
+![](./image/138.png)
+
+3. The FCN part
+
+![](./image/139.png)
+
+4. more details
+
+![](./image/140.png)
+
+**Comparison with LeNet**
+
+![](./image/141.png)
+
+**Pytorch implementation**
 
 ## Appendix
 
