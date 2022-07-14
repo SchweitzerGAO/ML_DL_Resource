@@ -2156,12 +2156,64 @@ net_optimized = nn.Sequential(
 
 #### c. VGG
 
+**problem of AlexNet**
+
+The architecture of this net is casual and VGG is to solve it by combining these to **blocks**
+
+**VGG blocks**
+
+![](./image/142.PNG)
+
+By replacing single convolutional layers with VGG blocks, the architecture will be:
+
+![](./image/143.PNG)
+
+We can construct deeper nets by **duplicating the VGG blocks**
+
+**Pytorch implementation**
+
+1. VGG block
+
+```py
+def vgg_block(num_convs, in_channels, out_channels):
+    layers = []
+    for _ in range(num_convs): # add conv layers by a loop
+        layers.append(nn.Conv2d(in_channels, out_channels,
+                                kernel_size=3, padding=1))
+        layers.append(nn.ReLU())
+        in_channels = out_channels # The next layer in a block
+    layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
+    return nn.Sequential(*layers) # return the block by v-args
+```
+
+2. VGG-11 implementation
+
+```py
+def vgg(conv_arch):
+    conv_blks = []
+    in_channels = 1
+    # 卷积层部分
+    for (num_convs, out_channels) in conv_arch:
+        conv_blks.append(vgg_block(num_convs, in_channels, out_channels))
+        in_channels = out_channels
+
+    return nn.Sequential(
+        *conv_blks, nn.Flatten(),
+        # 全连接层部分
+        nn.Linear(out_channels * 7 * 7, 4096), nn.ReLU(), nn.Dropout(0.5),
+        nn.Linear(4096, 4096), nn.ReLU(), nn.Dropout(0.5),
+        nn.Linear(4096, 10))
+# 5 blocks(no more!), 8 layers
+conv_arch = ((1, 64), (1, 128), (2, 256), (2, 512), (2, 512))
 
 
+vgg_11=vgg(conv_arch)
+```
 
+It runs slowly but with a small VGG-11, the acccuracy can be improved to 92.3% compared with AlexNet.
 
 ## Appendix
 
-### 1. AutoGluon
+## 1. AutoGluon
 
 https://www.bilibili.com/video/BV1rh411m7Hb/
