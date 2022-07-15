@@ -2156,6 +2156,8 @@ net_optimized = nn.Sequential(
 
 #### c. VGG
 
+![](./image/144.PNG)
+
 **problem of AlexNet**
 
 The architecture of this net is casual and VGG is to solve it by combining these to **blocks**
@@ -2181,7 +2183,7 @@ def vgg_block(num_convs, in_channels, out_channels):
         layers.append(nn.Conv2d(in_channels, out_channels,
                                 kernel_size=3, padding=1))
         layers.append(nn.ReLU())
-        in_channels = out_channels # The next layer in a block
+        in_channels = out_channels # prepare for the next layer in a block
     layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
     return nn.Sequential(*layers) # return the block by v-args
 ```
@@ -2211,6 +2213,78 @@ vgg_11=vgg(conv_arch)
 ```
 
 It runs slowly but with a small VGG-11, the acccuracy can be improved to 92.3% compared with AlexNet.
+
+#### d. NiN (Network in Network)
+
+![](./image/145.PNG)
+
+**problem of previous networks**
+
+The number of parameters in FC layer is so large that it is prone to overfit:
+
+![](./image/146.PNG)
+
+**NiN block**
+
+![](./image/147.PNG)
+
+It uses 1*1 convolution mentioned above to replace the FC layers and this is pixel-wise
+
+**NiN architecture**
+
+![](./image/148.PNG)
+
+![](./image/149.PNG)
+
+The last layer of NiN is a global average pooling layer, whose number of input channels is equal to the number of classes
+
+NiN has less number of params which make it less prone to overfit
+
+**Pytorch implementation**
+
+NiN block:
+
+```py
+# pay attenton to the 2nd and 3rd layers, the kernel size is 1 and
+# the number of channels doesn't change
+def nin_block(in_channels, out_channels, kernel_size, strides, padding):
+    return nn.Sequential(
+        nn.Conv2d(in_channels, out_channels, kernel_size, strides, padding),
+        nn.ReLU(),
+        nn.Conv2d(out_channels, out_channels, kernel_size=1), nn.ReLU(),
+        nn.Conv2d(out_channels, out_channels, kernel_size=1), nn.ReLU())
+```
+
+NiN-12:
+
+```py
+nin_12 = nn.Sequential(
+    nin_block(1, 96, kernel_size=11, strides=4, padding=0),
+    nn.MaxPool2d(3, stride=2),
+    nin_block(96, 256, kernel_size=5, strides=1, padding=2),
+    nn.MaxPool2d(3, stride=2),
+    nin_block(256, 384, kernel_size=3, strides=1, padding=1),
+    nn.MaxPool2d(3, stride=2),
+    nn.Dropout(0.5),
+    # 标签类别数是10
+    nin_block(384, 10, kernel_size=3, strides=1, padding=1), # as we use Fashion-MNIST
+    nn.AdaptiveAvgPool2d((1, 1)),
+    # 将四维的输出转成二维的输出，其形状为(批量大小,10)
+    nn.Flatten())
+```
+
+The accuracy is not as high as previous models on Fashion-MNIST
+
+I have tested on 4 sets of architectures, and the results are:(lr=0.05, epoch=10, batchsize=128)
+
+| n-conv | dropout | result     |
+|:------:|:-------:|:----------:|
+| 2      | Y       | OK(84%)    |
+| 2      | N       | OK(78%)    |
+| 1      | N       | OK(84%)    |
+| 1      | Y       | So-so(59%) |
+
+And I found the stability of the net is bad, For the same hyper-param, the process of loss changing can be very different. Sometimes gradient boom may occur. Seems it is the problem of learning rate. Smaller learning rate will be helpful.
 
 ## Appendix
 
