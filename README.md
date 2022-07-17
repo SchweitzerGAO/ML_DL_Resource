@@ -10,7 +10,7 @@ Resources(slides, books) &amp; My own notes of ML &amp; DL
 
 - [x] 420415 Machine Learning: Shuang Liang, Tongji University
 
-- [ ] Dive into Deep Learning: Mu Li (Now studying)
+- [ ] Dive into Deep Learning: Mu Li **(Now studying)**
 
 - [ ] CS229 Machine Learning: Andrew Ng, Stanford University
 
