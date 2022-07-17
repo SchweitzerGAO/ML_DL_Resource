@@ -2404,6 +2404,51 @@ net = nn.Sequential(b1, b2, b3, b4, b5, nn.Linear(1024, 10))
 
 #### f. Batch Normalization
 
+**problem to solve by BN**
+
+![](./image/159.PNG)
+
+**basic idea**
+
+fix the average and variance of the data and then slightly modify this by adding noises
+
+The average and the variance:
+
+$$
+\begin{split}\begin{aligned} \hat{\boldsymbol{\mu}}_\mathcal{B} &= \frac{1}{|\mathcal{B}|} \sum_{\mathbf{x} \in \mathcal{B}} \mathbf{x},\\
+\hat{\boldsymbol{\sigma}}_\mathcal{B}^2 &= \frac{1}{|\mathcal{B}|} \sum_{\mathbf{x} \in \mathcal{B}} (\mathbf{x} - \hat{\boldsymbol{\mu}}_{\mathcal{B}})^2 + \epsilon.\end{aligned}\end{split}
+$$
+
+where $\epsilon$ is the noise
+
+Batch normalization is:
+
+$$
+\text{BN}(\mathbf{x}) = \boldsymbol{\gamma} \odot \frac{\mathbf{x} - \hat{\boldsymbol{\mu}}_\mathcal{B}}{\hat{\boldsymbol{\sigma}}_\mathcal{B}} + \boldsymbol{\beta}.
+$$
+
+where $\gamma$ and $\beta$ are learnable parameters
+
+**batchnorm layer**
+
+The layer can be added at:
+
+- after the output of convolutional layer(on the channel dimension) or FC layer(on the feature dimension), before the activation function
+
+- after the input of convolutional layer or FC layer
+
+It is not necessary to use batchnorm together with dropout.
+
+*Batchnorm will speed up the convegence but normally doesn't increase the accuracy*
+
+**Pytorch from scratch**
+
+
+
+
+
+**Pytorch  cconcise**
+
 
 
 
