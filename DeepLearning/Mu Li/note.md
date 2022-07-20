@@ -2531,6 +2531,132 @@ This is probably caused by the fact that LeNet is a small NN, this will be more 
 
 #### g. ResNet
 
+The deeper, not necessarily the better
+
+![](./image/161.PNG)
+
+If the model is not nested, the deeper, the worse. It performs bad even with linear models (drops what has learnt)
+
+**the residual block**
+
+![](./image/162.PNG)
+
+There is a shortcut passage for the feature in case that it hasn't learnt anything from the layers.
+
+The implementation details:
+
+![](./image/163.PNG)
+
+Before the ReLU layer, the block adds the output of batchnorm with the input $x$
+
+And there are many possible places to put the shortcut:
+
+![](./image/164.PNG)
+
+**ResNet architecture**
+
+![](./image/165.PNG)
+
+This may reach 1000 layers
+
+**Pytorch implementation**
+
+1. the residual block
+
+This is the implementation of the first kind of residual block
+
+```py
+class Residual(nn.Module):
+    def __init__(self, input_channels, num_channels,
+                 use_1x1conv=False, strides=1):
+        super().__init__()
+        self.conv1 = nn.Conv2d(input_channels, num_channels,
+                               kernel_size=3, padding=1, stride=strides)
+        self.conv2 = nn.Conv2d(num_channels, num_channels,
+                               kernel_size=3, padding=1)
+        if use_1x1conv: # residual shortcut
+            self.conv3 = nn.Conv2d(input_channels, num_channels,
+                                   kernel_size=1, stride=strides)
+        else:
+            self.conv3 = None
+        self.bn1 = nn.BatchNorm2d(num_channels)
+        self.bn2 = nn.BatchNorm2d(num_channels) # BatchNorm layers
+
+    def forward(self, X):
+        Y = F.relu(self.bn1(self.conv1(X)))
+        Y = self.bn2(self.conv2(Y))
+        # half the height and weight by setting stride=2 and 
+        # usually double the number of channel
+        if self.conv3:
+            X = self.conv3(X)
+        Y += X
+        return F.relu(Y)
+```
+
+2. ResNet-18
+
+*block 1*
+
+```py
+b1 = nn.Sequential(nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3),
+                   nn.BatchNorm2d(64), nn.ReLU(),
+                   nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+```
+
+*resnet block*
+
+```py
+def resnet_block(input_channels, num_channels, num_residuals,
+                 first_block=False):
+    blk = []
+    for i in range(num_residuals):
+        # half the input if it is the first residual block vut not the 
+        # first ResNet block
+        if i == 0 and not first_block:
+            blk.append(Residual(input_channels, num_channels,
+                                use_1x1conv=True, strides=2))
+        else:
+            blk.append(Residual(num_channels, num_channels))
+    return blk
+```
+
+*block 2-5*
+
+```py
+b2 = nn.Sequential(*resnet_block(64, 64, 2, first_block=True))
+b3 = nn.Sequential(*resnet_block(64, 128, 2))
+b4 = nn.Sequential(*resnet_block(128, 256, 2))
+b5 = nn.Sequential(*resnet_block(256, 512, 2))
+```
+
+*the ResNet-18*
+
+```py
+resnet_18 = nn.Sequential(b1, b2, b3, b4, b5,
+                    nn.AdaptiveAvgPool2d((1,1)),
+                    nn.Flatten(), nn.Linear(512, 10))
+```
+
+### 4. Hardware Affairs
+
+
+
+
+
+## Part 2 RNN
+
+
+
+
+
+## Part 3 Attention & NLP
+
+
+
+## Part 4 CV
+
+
+
 
 
 ## Appendix
