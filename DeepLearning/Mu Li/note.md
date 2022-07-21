@@ -2603,7 +2603,7 @@ b1 = nn.Sequential(nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3),
                    nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
 ```
 
-*resnet block*
+*ResNet block*
 
 ```py
 def resnet_block(input_channels, num_channels, num_residuals,
@@ -2629,35 +2629,37 @@ b4 = nn.Sequential(*resnet_block(128, 256, 2))
 b5 = nn.Sequential(*resnet_block(256, 512, 2))
 ```
 
-*the ResNet-18*
+*ResNet-18*
 
 ```py
 resnet_18 = nn.Sequential(b1, b2, b3, b4, b5,
                     nn.AdaptiveAvgPool2d((1,1)),
-                    nn.Flatten(), nn.Linear(512, 10))
+                    nn.Flatten(), nn.Linear(512, 10)) 
 ```
 
-### 4. Hardware Affairs
+**Why can the depth of ResNet reach 1000**
 
+The reason is addition.
 
+Imagine a deep network whose gradient is calculated by chain principle, namely many multiplications, which is tend to result in gradient vanishing. Residual blocks uses a shortcut path to make the output like:
 
+$$
+h(x)=g(f(x))+f(x)
+$$
 
+No matter how small the gradient of $g$ is, the gradient of $h$ won't be small as there is an addition.  
+
+## 
 
 ## Part 2 RNN
 
-
-
-
-
 ## Part 3 Attention & NLP
 
+## Part 4 Hardware & CV
 
+### 1. Hardware
 
-## Part 4 CV
-
-
-
-
+#### a. CPU & GPU
 
 ## Appendix
 
