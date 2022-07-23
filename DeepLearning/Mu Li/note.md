@@ -2610,7 +2610,7 @@ def resnet_block(input_channels, num_channels, num_residuals,
                  first_block=False):
     blk = []
     for i in range(num_residuals):
-        # half the input if it is the first residual block vut not the 
+        # half the input if it is the first residual block but not the 
         # first ResNet block
         if i == 0 and not first_block:
             blk.append(Residual(input_channels, num_channels,
@@ -2649,17 +2649,123 @@ $$
 
 No matter how small the gradient of $g$ is, the gradient of $h$ won't be small as there is an addition.  
 
-## 
+The performance of ResNet can be extremely good on Fashion-MNIST with only 10 epochs.
+
+#### h. DenseNet
+
+**basic idea**
+
+While ResNet expands the model by:
+
+$$
+f(\mathbf{x}) = \mathbf{x} + g(\mathbf{x}).
+$$
+
+DenseNet expands the model by:
+
+$$
+\mathbf{x} \to \left[
+\mathbf{x},
+f_1(\mathbf{x}),
+f_2([\mathbf{x}, f_1(\mathbf{x})]), f_3([\mathbf{x}, f_1(\mathbf{x}), f_2([\mathbf{x}, f_1(\mathbf{x})])]), \ldots\right].
+$$
+
+We can simply concatenate the output to implement this
+
+**Pytorch implementation**
+
+1. the dense block
+
+This block is a reformation for the residual block, which uses BN-ReLU-Conv as the structure: (Conv-BN-ReLU in residual block)
+
+```py
+def conv_block(input_channels, num_channels):
+    return nn.Sequential(
+        nn.BatchNorm2d(input_channels), nn.ReLU(),
+        nn.Conv2d(input_channels, num_channels, kernel_size=3, padding=1))
+```
+
+2. the dense layer 
+
+The layer consists of multiple dense blocks:
+
+```py
+class DenseBlock(nn.Module):
+    def __init__(self, num_convs, input_channels, num_channels):
+        super(DenseBlock, self).__init__()
+        layer = []
+        for i in range(num_convs):
+            layer.append(conv_block(
+                num_channels * i + input_channels, num_channels))
+        self.net = nn.Sequential(*layer)
+
+    def forward(self, X):
+        for blk in self.net:
+            Y = blk(X)
+            # 连接通道维度上每个块的输入和输出
+            X = torch.cat((X, Y), dim=1) # This is the concat operation
+        return X
+```
+
+3. The transition layer
+
+DenseNet uses a transition layer(actually 1*1 conv and average pooling of stride 2) to reduce the number of channels. Almost the same as the `conv3` part in `Residual`
+
+```py
+def transition_block(input_channels, num_channels):
+    return nn.Sequential(
+        nn.BatchNorm2d(input_channels), nn.ReLU(),
+        nn.Conv2d(input_channels, num_channels, kernel_size=1),
+        nn.AvgPool2d(kernel_size=2, stride=2))
+```
+
+4. The DenseNet model
+
+*stage 1*
+
+```py
+b1 = nn.Sequential(
+    nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3),
+    nn.BatchNorm2d(64), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+```
+
+*stage 2-5*
+
+```py
+num_channels, growth_rate = 64, 32
+num_convs_in_dense_blocks = [4, 4, 4, 4]
+blks = []
+for i, num_convs in enumerate(num_convs_in_dense_blocks):
+    blks.append(DenseBlock(num_convs, num_channels, growth_rate))
+    # 上一个稠密块的输出通道数
+    num_channels += num_convs * growth_rate
+    # 在稠密块之间添加一个转换层，使通道数量减半
+    if i != len(num_convs_in_dense_blocks) - 1:
+        blks.append(transition_block(num_channels, num_channels // 2))
+        num_channels = num_channels // 2
+```
+
+*the model*
+
+```py
+dense_net = nn.Sequential(
+    b1, *blks,
+    nn.BatchNorm2d(num_channels), nn.ReLU(),
+    nn.AdaptiveAvgPool2d((1, 1)),
+    nn.Flatten(),
+    nn.Linear(num_channels, 10))
+```
+
+
+
+
 
 ## Part 2 RNN
 
 ## Part 3 Attention & NLP
 
 ## Part 4 Hardware & CV
-
-### 1. Hardware
-
-#### a. CPU & GPU
 
 ## Appendix
 
