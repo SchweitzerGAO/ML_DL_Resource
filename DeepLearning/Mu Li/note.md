@@ -2757,11 +2757,174 @@ dense_net = nn.Sequential(
     nn.Linear(num_channels, 10))
 ```
 
-
-
-
-
 ## Part 2 RNN
+
+### 1. Recurrent Neural Network(RNN)
+
+#### a. sequential model
+
+If we observed $x_t$ at $t$, then at time $T$ a sequential is observed:
+
+$$
+(x_1,x_2, \dots x_T)
+$$
+
+The components are not independent.
+
+The probability $p(\mathbf x)$ can be expanded by conditional probability:
+
+$$
+P(x_1, \ldots, x_T) = \prod_{t=1}^T P(x_t \mid x_{t-1}, \ldots, x_1).
+$$
+
+This is called the 'self-regression' model(modeling by previous data)
+
+How to model this?
+
+*Solution 1:Markov Model*
+
+![](./image/166.PNG)
+
+Assume that the current data is relevant to previous $\tau$ data(The Markov Assumption), then:
+
+$$
+p(x_t\mid x_1,\dots x_{t-1})=p(x_t\mid x_{t-\tau},\dots x_{t-1})
+=p(x_t\mid f(x_{t-\tau},\dots x_{t-1}))
+$$
+
+
+
+*Solution 2: Latent Variable Model*  (used in RNN)
+
+![](./image/167.PNG)
+
+A latent variable $h$ is introduced to denote the past information. There are 2 models:
+
+$$
+h_t=f(h_{t-1},x_{t-1})\\
+x_t=g(x_{t-1},h_{t})
+$$
+
+This way, the current data is just relevant to 1 or 2 previous data
+
+another expansion way is:
+
+$$
+P(x_1, \ldots, x_T) = \prod_{t=T}^1 P(x_t \mid x_{t+1}, \ldots, x_T).
+$$
+
+but this is hard to explain as future cannot influence present.
+
+**A Pytorch example**
+
+This is an example using *Solution 1*
+
+1. Generate dataset using sine function and a random noise
+
+```py
+T = 1000  # 总共产生1000个点
+time = torch.arange(1, T + 1, dtype=torch.float32)
+x = torch.sin(0.01 * time) + torch.normal(0, 0.2, (T,))
+```
+
+2. apply the Markov Assumption(say $\tau=4$)
+
+```py
+tau = 4
+features = torch.zeros((T - tau, tau))
+for i in range(tau):
+    features[:, i] = x[i: T - tau + i] # generate the features
+labels = x[tau:].reshape((-1, 1)) # generate the labels
+```
+
+3. define the model
+
+```py
+# 初始化网络权重的函数
+def init_weights(m):
+    if type(m) == nn.Linear:
+        nn.init.xavier_uniform_(m.weight)
+
+# 一个简单的多层感知机
+def get_net():
+    net = nn.Sequential(nn.Linear(4, 10),
+                        nn.ReLU(),
+                        nn.Linear(10, 1))
+    net.apply(init_weights)
+    return net
+
+# 平方损失。注意：MSELoss计算平方误差时不带系数1/2
+loss = nn.MSELoss(reduction='none')
+```
+
+4. training
+
+```py
+def train(net, train_iter, loss, epochs, lr):
+    trainer = torch.optim.Adam(net.parameters(), lr)
+    for epoch in range(epochs):
+        for X, y in train_iter:
+            trainer.zero_grad()
+            l = loss(net(X), y)
+            l.sum().backward()
+            trainer.step()
+        print(f'epoch {epoch + 1}, '
+              f'loss: {d2l.evaluate_loss(net, train_iter, loss):f}')
+
+net = get_net()
+train(net, train_iter, loss, 5, 0.01)
+```
+
+5. prediction
+
+*1-step*
+
+```py
+onestep_preds = net(features)
+```
+
+![](./image/168.PNG)
+
+*multi-step*
+
+```py
+multistep_preds = torch.zeros(T)
+multistep_preds[: n_train + tau] = x[: n_train + tau]
+for i in range(n_train + tau, T):
+    multistep_preds[i] = net(
+        multistep_preds[i - tau:i].reshape((1, -1)))
+```
+
+![](./image/169.PNG)
+
+This performs very bad on the test set, which is because of the cumulation of previous error
+
+Try bigger steps:
+
+```py
+max_steps = 64
+
+features = torch.zeros((T - tau - max_steps + 1, tau + max_steps))
+# 列i（i<tau）是来自x的观测，其时间步从（i+1）到（i+T-tau-max_steps+1）
+for i in range(tau):
+    features[:, i] = x[i: i + T - tau - max_steps + 1]
+
+# 列i（i>=tau）是来自（i-tau+1）步的预测，其时间步从（i+1）到（i+T-tau-max_steps+1）
+for i in range(tau, tau + max_steps):
+    features[:, i] = net(features[:, i - tau:i]).reshape(-1)
+
+steps = (1, 4, 16, 64)
+d2l.plot([time[tau + i - 1: T - max_steps + i] for i in steps],
+         [features[:, (tau + i - 1)].detach().numpy() for i in steps], 'time', 'x',
+         legend=[f'{i}-step preds' for i in steps], xlim=[5, 1000],
+         figsize=(6, 3))
+```
+
+![](./image/170.PNG)
+
+It can be seen that the bigger step, the bigger error.
+
+  
 
 ## Part 3 Attention & NLP
 
