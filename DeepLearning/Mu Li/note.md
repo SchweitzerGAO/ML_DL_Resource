@@ -2792,8 +2792,6 @@ p(x_t\mid x_1,\dots x_{t-1})=p(x_t\mid x_{t-\tau},\dots x_{t-1})
 =p(x_t\mid f(x_{t-\tau},\dots x_{t-1}))
 $$
 
-
-
 *Solution 2: Latent Variable Model*  (used in RNN)
 
 ![](./image/167.PNG)
@@ -2924,7 +2922,7 @@ d2l.plot([time[tau + i - 1: T - max_steps + i] for i in steps],
 
 It can be seen that the bigger step, the bigger error.
 
-  
+Many different models are developed to predict future data as far as possible 
 
 ## Part 3 Attention & NLP
 
