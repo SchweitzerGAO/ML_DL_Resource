@@ -2922,7 +2922,129 @@ d2l.plot([time[tau + i - 1: T - max_steps + i] for i in steps],
 
 It can be seen that the bigger step, the bigger error.
 
-Many different models are developed to predict future data as far as possible 
+Many different models are developed to predict future data as far as possible.
+
+#### b. text preprocessing
+
+**Pytorch implementation**
+
+1. prepare the dataset (The time-machine dataset)
+
+```py
+def read_time_machine(): 
+    """将时间机器数据集加载到文本行的列表中"""
+    with open(d2l.download('time_machine'), 'r') as f:
+        lines = f.readlines()
+    # this line replace the punctuations to spaces, remove the new lines and
+    # convert them to lower case.
+    return [re.sub('[^A-Za-z]+', ' ', line).strip().lower() for line in lines]
+```
+
+2. tokenize the lines of text
+
+```py
+def tokenize(lines, token='word'):
+    """将文本行拆分为单词或字符词元"""
+    if token == 'word':
+        return [line.split() for line in lines] # split the line word by word
+    elif token == 'char':
+        return [list(line) for line in lines] # split the line char by char
+    else:
+        print('错误：未知词元类型：' + token)
+```
+
+3. build a vocabulary list
+
+```py
+class Vocab:
+    """文本词表"""
+    def __init__(self, tokens=None, min_freq=0, reserved_tokens=None):
+        if tokens is None:
+            tokens = []
+        if reserved_tokens is None:
+            reserved_tokens = []
+        # 按出现频率排序
+        counter = count_corpus(tokens)
+        self._token_freqs = sorted(counter.items(), key=lambda x: x[1],
+                                   reverse=True)
+        # 未知词元的索引为0
+        self.idx_to_token = ['<unk>'] + reserved_tokens
+        self.token_to_idx = {token: idx
+                             for idx, token in enumerate(self.idx_to_token)}
+        for token, freq in self._token_freqs:
+            if freq < min_freq:
+                break
+            if token not in self.token_to_idx:
+                self.idx_to_token.append(token)
+                self.token_to_idx[token] = len(self.idx_to_token) - 1
+
+    def __len__(self):
+        return len(self.idx_to_token)
+
+    def __getitem__(self, tokens):
+        if not isinstance(tokens, (list, tuple)):
+            return self.token_to_idx.get(tokens, self.unk)
+        return [self.__getitem__(token) for token in tokens]
+
+    def to_tokens(self, indices):
+        if not isinstance(indices, (list, tuple)):
+            return self.idx_to_token[indices]
+        return [self.idx_to_token[index] for index in indices]
+
+    @property
+    def unk(self):  # 未知词元的索引为0
+        return 0
+
+    @property
+    def token_freqs(self):
+        return self._token_freqs
+
+def count_corpus(tokens):
+    """统计词元的频率"""
+    # 这里的tokens是1D列表或2D列表
+    if len(tokens) == 0 or isinstance(tokens[0], list):
+        # 将词元列表展平成一个列表
+        tokens = [token for line in tokens for token in line]
+    return collections.Counter(tokens)
+```
+
+Explanations of the implementation of class `Vocab` :
+
+`min_freq` : if the time of appearance of a word is less than this value, it will be marked as an unknown token `<unk>`
+
+`reserved_tokens` : will be used in the future, consisting of some special tokens representing the start or the end of a sentence, etc.
+
+`count_corpus()` : count the frequency of a token, making it convenient to sort.
+
+`self._token_freqs`: `list`, sorted tokens by frequency (decreasing)
+
+`self.idx_to_token`: `list`, the correspondence between index and token
+
+`self.token_to_idx`: `dict`, the correspondence between token and index
+
+`self.__getitem__()`: token to index, default `<unk>`
+
+`self.to_token()`: index to token
+
+4. putting them together
+
+```py
+def load_corpus_time_machine(max_tokens=-1):
+    """返回时光机器数据集的词元索引列表和词表"""
+    lines = read_time_machine()
+    tokens = tokenize(lines, 'char')
+    vocab = Vocab(tokens)
+    # 因为时光机器数据集中的每个文本行不一定是一个句子或一个段落，
+    # 所以将所有文本行展平到一个列表中
+    corpus = [vocab[token] for line in tokens for token in line]
+    if max_tokens > 0:
+        corpus = corpus[:max_tokens]
+    return corpus, vocab
+```
+
+
+
+
 
 ## Part 3 Attention & NLP
 
