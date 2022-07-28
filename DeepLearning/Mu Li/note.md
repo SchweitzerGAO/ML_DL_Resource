@@ -3042,6 +3042,30 @@ def load_corpus_time_machine(max_tokens=-1):
     return corpus, vocab
 ```
 
+#### c. language model & dataset
+
+A language model is to estimate the joint probability given a text sequence. Appliance including **pre-trained LM (BERT, GPT-3 etc)**, **NLG(Natural Language Generation)** and **choose a more sensible sequence** etc.
+
+**modeling using count**
+
+![](./image/171.PNG)
+
+**N-gram**
+
+If the sequence is so long that some of the reasonable sub-sequence doesn't appear in the sequence, we can apply Markov model to solve this problem. This is called N-gram
+
+If $\tau=0$ in Markov model we get **uni-gram**
+
+![](./image/172.PNG)
+
+If $\tau=1$ we get **bi-gram**
+
+![](./image/173.PNG)
+
+If $\tau=2$ we get **tri-gram**
+
+![](./image/174.PNG)
+
 
 
 
