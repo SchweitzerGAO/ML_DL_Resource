@@ -3180,6 +3180,46 @@ def load_data_time_machine(batch_size, num_steps,
     return data_iter, data_iter.vocab
 ```
 
+#### d. RNN theories
+
+**theoretical basis**
+
+RNN uses latent variable model as the theoretical basis:
+
+![](./image/177.PNG) 
+
+**workflow of RNN**
+
+![](./image/178.PNG)
+
+When the model observed '你' it will output '好' by the calculation below. And the predictions after this are all alike.
+
+![](./image/179.PNG)
+
+The sequential info are saved in $W_{hh}$, $\phi$ is an activation function.
+
+Note that there are no activation functions on the output layer.
+
+**evaluation of an LM by perplexity**
+
+May be the loss of RNN (essentially cross entropy meaned and exponented)
+
+![](./image/180.PNG)
+
+**gradient clip**
+
+An effecient way to handle gradient boom
+
+if the L2-norm of gradient $\mathbf g$ is bigger than a fixed $\theta$, then modify it back to length $\theta$ by
+
+![](./image/181.PNG)
+
+**RNN application**
+
+![](./image/182.PNG)
+
+
+
 
 
 ## Part 3 Attention & NLP
