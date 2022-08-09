@@ -3218,9 +3218,91 @@ if the L2-norm of gradient $\mathbf g$ is bigger than a fixed $\theta$, then mod
 
 ![](./image/182.PNG)
 
+#### e. RNN implementation
+
+**from scratch**
+
+*step #1: one-hot encoding*
+
+We need to encode the vocabulary to simplify the input and make the training process easier. **Note that we should transpose the vocabulary to put the time before the batch size**
+
+*step #2: parameter initializatioin*
+
+```py
+def get_params(vocab_size, num_hiddens, device):
+    num_inputs = num_outputs = vocab_size
+
+    def normal(shape):
+        return torch.randn(size=shape, device=device) * 0.01
+
+    # 隐藏层参数
+    W_xh = normal((num_inputs, num_hiddens))
+    # this line is the only difference betewwn RNN and MLP
+    W_hh = normal((num_hiddens, num_hiddens))
+    b_h = torch.zeros(num_hiddens, device=device)
+    # 输出层参数
+    W_hq = normal((num_hiddens, num_outputs))
+    b_q = torch.zeros(num_outputs, device=device)
+    # 附加梯度
+    params = [W_xh, W_hh, b_h, W_hq, b_q]
+    for param in params:
+        param.requires_grad_(True)
+    return params
+```
+
+*step #3: define the RNN model*
+
+- initialize the hidden state:
+
+```py
+def init_rnn_state(batch_size, num_hiddens, device):
+    return (torch.zeros((batch_size, num_hiddens), device=device), )
+```
+
+To unify the form of RNN and LSTM, we return a tuple.
+
+- the function computing the hidden state and output:
+
+```py
+def rnn(inputs, state, params):
+    # inputs的形状：(时间步数量，批量大小，词表大小)
+    W_xh, W_hh, b_h, W_hq, b_q = params
+    H, = state
+    outputs = []
+    # X的形状：(批量大小，词表大小)
+    for X in inputs:
+        # update the state by the input and previous state
+        H = torch.tanh(torch.mm(X, W_xh) + torch.mm(H, W_hh) + b_h)
+        # update the output
+        Y = torch.mm(H, W_hq) + b_q
+        outputs.append(Y)
+    return torch.cat(outputs, dim=0), (H,)
+```
+
+- the overall RNN model
+
+```py
+class RNNModelScratch:
+    """从零开始实现的循环神经网络模型"""
+    def __init__(self, vocab_size, num_hiddens, device,
+                 get_params, init_state, forward_fn):
+        self.vocab_size, self.num_hiddens = vocab_size, num_hiddens
+        self.params = get_params(vocab_size, num_hiddens, device)
+        self.init_state, self.forward_fn = init_state, forward_fn
+
+    def __call__(self, X, state):
+        X = F.one_hot(X.T, self.vocab_size).type(torch.float32)
+        return self.forward_fn(X, state, self.params)
+
+    def begin_state(self, batch_size, device):
+        return self.init_state(batch_size, self.num_hiddens, device)
+```
 
 
 
+
+
+ 
 
 ## Part 3 Attention & NLP
 
@@ -3228,6 +3310,6 @@ if the L2-norm of gradient $\mathbf g$ is bigger than a fixed $\theta$, then mod
 
 ## Appendix
 
-##Z 1. AutoGluon
+## 1. AutoGluon
 
 https://www.bilibili.com/video/BV1rh411m7Hb/
