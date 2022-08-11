@@ -22,6 +22,9 @@ Resources(slides, books) &amp; My own notes of ML &amp; DL
 
 - [ ] CS224n [Natural Language Processing with Deep Learning](https://web.stanford.edu/class/cs224n/): Chris Manning et.al, Stanford University
 
+## About Researching
+- [ ] How to read papers: Mu Li
+
 ## Book Library
 
 1. Machine Learning: Zhihua Zhou
