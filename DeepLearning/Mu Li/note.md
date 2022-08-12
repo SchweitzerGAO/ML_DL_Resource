@@ -3455,8 +3455,13 @@ class RNNModel(nn.Module):
                         self.num_directions * self.rnn.num_layers,
                         batch_size, self.num_hiddens), device=device))
 ```
+#### f. BP through time (BPTT)
 
+*(to be filled)*
 
+### 2. Modern RNN
+
+#### a. GRU(Gated Recurrent Unit)
 
 ## Part 3 Attention & NLP
 
