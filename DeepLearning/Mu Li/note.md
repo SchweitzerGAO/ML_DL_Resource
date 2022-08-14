@@ -3455,17 +3455,62 @@ class RNNModel(nn.Module):
                         self.num_directions * self.rnn.num_layers,
                         batch_size, self.num_hiddens), device=device))
 ```
+
 #### f. BP through time (BPTT)
 
 *(to be filled)*
 
 ### 2. Modern RNN
 
+There are situations where we have to remember, skip or reset previous information:
+
+- when the first observation is important (remember)
+
+- when some of the information is useless (skip)
+
+- when there are logical interruptions (reset)
+
+popular solutions include LSTM and GRU
+
 #### a. GRU(Gated Recurrent Unit)
 
-## Part 3 Attention & NLP
+The observations in a sequence are not necessarily equally important. If we want to filter the more important info, some schemes supporting **'focus (update gate)'** and **forget (reset gate)** are needed. 
 
-## Part 4 Hardware & CV
+
+
+**gates**
+
+Diffferent to what 'gate' is define in a computer, 'gate' here is defined as a vector with the same length as the hidden state. It is computed similarly with the hidden state.
+
+![](./image/183.PNG)
+
+where $\sigma$ is sigmoid function
+
+**candidate hidden state**
+
+![](./image/184.PNG)
+
+As $\mathbf{R}_t$ is between 0 and 1 (after sigmoid), after doing element-wise multiplication, it is clear that if the element in $\mathbf{R_t}$ is near 0, the previous info will be forgotten, else if the element is near 1, the previous info wiill be remembered.
+
+**hidden state**
+
+![](./image/185.PNG)
+
+As $\mathbf{Z}_t$ is also between 0 and 1, $\mathbf{Z_t}$ is near 0 implies the current state is almost the candidate hidden state, else if the element is near 1 implies the current state is almost the previous hidden state.
+
+
+
+
+
+
+
+## Part 3 Attention
+
+
+
+## Part 4 NLP
+
+## Part 5 CV
 
 ## Appendix
 
