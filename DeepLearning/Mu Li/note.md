@@ -3476,8 +3476,6 @@ popular solutions include LSTM and GRU
 
 The observations in a sequence are not necessarily equally important. If we want to filter the more important info, some schemes supporting **'focus (update gate)'** and **forget (reset gate)** are needed. 
 
-
-
 **gates**
 
 Diffferent to what 'gate' is define in a computer, 'gate' here is defined as a vector with the same length as the hidden state. It is computed similarly with the hidden state.
@@ -3498,6 +3496,80 @@ As $\mathbf{R}_t$ is between 0 and 1 (after sigmoid), after doing element-wise m
 
 As $\mathbf{Z}_t$ is also between 0 and 1, $\mathbf{Z_t}$ is near 0 implies the current state is almost the candidate hidden state, else if the element is near 1 implies the current state is almost the previous hidden state.
 
+**Pytorch implementation**
+
+*from scratch*
+
+- parameter initialization
+
+```py
+def get_params(vocab_size, num_hiddens, device):
+    num_inputs = num_outputs = vocab_size
+
+    def normal(shape):
+        return torch.randn(size=shape, device=device)*0.01
+
+    # this function simplifies the initialization of the params
+    # of the update gate, reset gate and the candidate hidden state 
+    def three():
+        return (normal((num_inputs, num_hiddens)),
+                normal((num_hiddens, num_hiddens)),
+                torch.zeros(num_hiddens, device=device))
+
+    W_xz, W_hz, b_z = three()  # 更新门参数
+    W_xr, W_hr, b_r = three()  # 重置门参数
+    W_xh, W_hh, b_h = three()  # 候选隐状态参数
+    # 输出层参数
+    W_hq = normal((num_hiddens, num_outputs))
+    b_q = torch.zeros(num_outputs, device=device)
+    # 附加梯度
+    params = [W_xz, W_hz, b_z, W_xr, W_hr, b_r, W_xh, W_hh, b_h, W_hq, b_q]
+    for param in params:
+        param.requires_grad_(True)
+    return params
+```
+
+- define the GRU model
+
+```py
+# state initialization
+def init_gru_state(batch_size, num_hiddens, device):
+    return (torch.zeros((batch_size, num_hiddens), device=device), )
+
+# the GRU function
+def gru(inputs, state, params):
+    W_xz, W_hz, b_z, W_xr, W_hr, b_r, W_xh, W_hh, b_h, W_hq, b_q = params
+    H, = state
+    outputs = []
+    for X in inputs:
+        # '@' is essentially torch.mm()
+        Z = torch.sigmoid((X @ W_xz) + (H @ W_hz) + b_z) # update gate
+        R = torch.sigmoid((X @ W_xr) + (H @ W_hr) + b_r) # reset gate
+        # candidate hidden state
+        H_tilda = torch.tanh((X @ W_xh) + ((R * H) @ W_hh) + b_h)
+        # update
+        H = Z * H + (1 - Z) * H_tilda
+        Y = H @ W_hq + b_q
+        outputs.append(Y)
+    return torch.cat(outputs, dim=0), (H,)
+# the GRU layer
+model = d2l.RNNModelScratch(len(vocab), num_hiddens, device, get_params,
+                            init_gru_state, gru)
+```
+
+*concise*
+
+```py
+num_inputs = vocab_size
+# the advanced API encapsules the computations of GRU layer
+gru_layer = nn.GRU(num_inputs, num_hiddens)
+model = d2l.RNNModel(gru_layer, len(vocab))
+model = model.to(device)
+d2l.train_ch8(model, train_iter, vocab, lr, num_epochs, device)
+```
+
+
+
 
 
 
@@ -3505,8 +3577,6 @@ As $\mathbf{Z}_t$ is also between 0 and 1, $\mathbf{Z_t}$ is near 0 implies the 
 
 
 ## Part 3 Attention
-
-
 
 ## Part 4 NLP
 
