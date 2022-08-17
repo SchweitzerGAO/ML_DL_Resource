@@ -3580,8 +3580,6 @@ d2l.train_ch8(model, train_iter, vocab, lr, num_epochs, device)
 
 Note that the process of calculation is just like that in GRU
 
-
-
 ![](./image/186.PNG)
 
 **candidate memory unit**
@@ -3657,8 +3655,6 @@ model = d2l.RNNModelScratch(len(vocab), num_hiddens, device, get_lstm_params,
                             init_lstm_state, lstm)
 ```
 
-
-
 *concise*
 
 ```py
@@ -3669,7 +3665,46 @@ model = model.to(device)
 d2l.train_ch8(model, train_iter, vocab, lr, num_epochs, device)
 ```
 
+#### c. DRNN(Deep RNN)
 
+Just like MLP, we can make RNN deep to get more unlinearity:
+
+![](./image/190.PNG)
+
+The formula of computing hidden states and output are correspondingly expanded as:
+
+![](./image/191.PNG)
+
+**Pytorch concise implementation**
+
+```py
+vocab_size, num_hiddens, num_layers = len(vocab), 256, 2
+num_inputs = vocab_size
+device = d2l.try_gpu()
+lstm_layer = nn.LSTM(num_inputs, num_hiddens, num_layers)
+model = d2l.RNNModel(lstm_layer, len(vocab))
+model = model.to(device)
+```
+
+#### d. BDRNN(Bi-directional RNN)
+
+RNN and its variations only focus on past data but sometimes the future info is also very important. BDRNN is to solve this.
+
+![](./image/192.PNG)
+
+Note that BDRNN is not designed for inference as it needs to see the future info, but it is suitable for sentence feature extraction and sentiment classfication and filling in blanks.
+
+**Pytorch implementation**
+
+```py
+vocab_size, num_hiddens, num_layers = len(vocab), 256, 2
+num_inputs = vocab_size
+device = d2l.try_gpu()
+lstm_layer = 
+nn.LSTM(num_inputs, num_hiddens, num_layers, bidirectional=True)
+model = d2l.RNNModel(lstm_layer, len(vocab))
+model = model.to(device)
+```
 
 
 
