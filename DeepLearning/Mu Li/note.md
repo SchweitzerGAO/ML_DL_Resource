@@ -3727,7 +3727,6 @@ def preprocess_nmt(text):
     out = [' ' + char if i > 0 and no_space(char, text[i - 1]) else char
            for i, char in enumerate(text)]
     return ''.join(out)
-
 ```
 
 2. tokenize
@@ -3758,8 +3757,6 @@ src_vocab = d2l.Vocab(source, min_freq=2,
 `<bos>` the 'begin of sentence' token
 
 `<eos>` the 'end of sentence' token
-
-
 
 4. truncate or pad to keep the length same
 
@@ -3802,7 +3799,66 @@ def load_data_nmt(batch_size, num_steps, num_examples=600):
     return data_iter, src_vocab, tgt_vocab
 ```
 
+**encoder-decoder framework**
 
+*E-D in CNN*
+
+![](./image/193.PNG)
+
+*E-D in RNN*
+
+![](./image/194.PNG)
+
+*generate framework*
+
+![](./image/195.PNG)
+
+*framework implementation*
+
+1. Encoder
+
+```py
+class Encoder(nn.Module):
+    """编码器-解码器架构的基本编码器接口"""
+    def __init__(self, **kwargs):
+        super(Encoder, self).__init__(**kwargs)
+
+    def forward(self, X, *args): # to be implemented
+        raise NotImplementedError
+```
+
+2. Decoder
+
+```py
+class Decoder(nn.Module):
+    """编码器-解码器架构的基本解码器接口"""
+    def __init__(self, **kwargs):
+        super(Decoder, self).__init__(**kwargs)
+
+    def init_state(self, enc_outputs, *args): # to be implemented
+        raise NotImplementedError
+
+    def forward(self, X, state):  
+        raise NotImplementedError
+```
+
+3. put them together
+
+```py
+class EncoderDecoder(nn.Module):
+    """编码器-解码器架构的基类"""
+    def __init__(self, encoder, decoder, **kwargs):
+        super(EncoderDecoder, self).__init__(**kwargs)
+        self.encoder = encoder
+        self.decoder = decoder
+
+    def forward(self, enc_X, dec_X, *args):
+        enc_outputs = self.encoder(enc_X, *args)
+        dec_state = self.decoder.init_state(enc_outputs, *args)
+        return self.decoder(dec_X, dec_state)
+```
+
+In future NLP applications we use the above framework to implement models.
 
 
 
