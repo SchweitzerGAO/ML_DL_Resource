@@ -3478,7 +3478,7 @@ The observations in a sequence are not necessarily equally important. If we want
 
 **gates**
 
-Diffferent to what 'gate' is define in a computer, 'gate' here is defined as a vector with the same length as the hidden state. It is computed similarly with the hidden state.
+Different to what 'gate' is define in a computer, 'gate' here is defined as a vector with the same length as the hidden state. It is computed similarly with the hidden state.
 
 ![](./image/183.PNG)
 
@@ -3859,8 +3859,6 @@ class EncoderDecoder(nn.Module):
 ```
 
 In future NLP applications we use the above framework to implement models.
-
-
 
 ## Part 3 Attention
 
