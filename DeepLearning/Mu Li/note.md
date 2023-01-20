@@ -3706,7 +3706,9 @@ model = d2l.RNNModel(lstm_layer, len(vocab))
 model = model.to(device)
 ```
 
-#### e. machine translation
+## Part 3 SeqAttention
+
+### 1. Machine Translation Dataset
 
 **dataset & pre-process**
 
@@ -3799,7 +3801,7 @@ def load_data_nmt(batch_size, num_steps, num_examples=600):
     return data_iter, src_vocab, tgt_vocab
 ```
 
-**encoder-decoder framework**
+### 2. Encoder-Decoder Framework
 
 *E-D in CNN*
 
@@ -3860,7 +3862,19 @@ class EncoderDecoder(nn.Module):
 
 In future NLP applications we use the above framework to implement models.
 
-## Part 3 Attention
+### 3. Seq2seq Learning
+
+**Theories**
+
+1. The encoder is an RNN to read the input, the decoder is also an RNN to output
+
+![](./image/196.PNG)
+
+
+
+
+
+**Implementation**
 
 ## Part 4 NLP
 
