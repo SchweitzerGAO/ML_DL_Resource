@@ -4079,8 +4079,6 @@ def bleu(pred_seq, label_seq, k):  #@save
     return score
 ```
 
-
-
 ## Part 4 NLP
 
 ## Part 5 CV
