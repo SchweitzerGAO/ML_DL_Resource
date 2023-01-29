@@ -3708,9 +3708,9 @@ model = model.to(device)
 
 ## Part 3 Seq2Seq & Attention
 
-### 1. Machine Translation Dataset
+### 1. Seq2Seq Learning
 
-**dataset & pre-process**
+#### a. machine translation dataset
 
 *Dataset: English-French translation dataset*
 
@@ -3801,7 +3801,7 @@ def load_data_nmt(batch_size, num_steps, num_examples=600):
     return data_iter, src_vocab, tgt_vocab
 ```
 
-### 2. Encoder-Decoder Framework
+#### b. encoder-decoder framework
 
 *E-D in CNN*
 
@@ -3862,7 +3862,7 @@ class EncoderDecoder(nn.Module):
 
 In future NLP applications we use the above framework to implement models.
 
-### 3. Seq2seq Learning
+#### c. seq2seq learning
 
 **Theories**
 
@@ -4078,6 +4078,26 @@ def bleu(pred_seq, label_seq, k):  #@save
         score *= math.pow(num_matches / (len_pred - n + 1), math.pow(0.5, n))
     return score
 ```
+
+#### d. beam search
+
+Beam search is a compromise between greedy and brute searching, used in situations where a next state is relevant to the previous state.(based on greedy, local optimum)
+
+*Viterbi algorithm is used in situations where states are irrelevant*.(based on DP, global optimum)
+
+**basic steps**
+
+![](./image/200.PNG)
+
+TC: $O(knT)$
+
+where $T$ is the length of a sentence
+
+Finally, choose the sequence with highest *conditional probability* calculated by:
+
+$$
+\frac{1}{L^{\alpha}} \log p\left(y_{1}, \ldots, y_{L}\right)=\frac{1}{L^{\alpha}} \sum_{t^{\prime}=1}^{L} \log p\left(y_{t^{\prime}} \mid y_{1}, \ldots, y_{t^{\prime}-1}, \boldsymbol{c}\right)
+$$
 
 ## Part 4 NLP
 
