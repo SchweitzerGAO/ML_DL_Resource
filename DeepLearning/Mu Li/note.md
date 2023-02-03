@@ -4099,12 +4099,68 @@ $$
 \frac{1}{L^{\alpha}} \log p\left(y_{1}, \ldots, y_{L}\right)=\frac{1}{L^{\alpha}} \sum_{t^{\prime}=1}^{L} \log p\left(y_{t^{\prime}} \mid y_{1}, \ldots, y_{t^{\prime}-1}, \boldsymbol{c}\right)
 $$
 
+### 2. Attention
+
+#### a. introduction
+
+*bad translation*
+
+随 意(自主) 线索（volitional cues）：cues driven by your consciousness  
+
+不 随 意（非自主） 线索（nonvolitional cues）： cues driven by sub-consciousness
+
+**query, key, value**
+
+![](./image/201.PNG)
+
+**attention pooling**
+
+*mean pooling*
+
+A model can study the data just simply by mean pooling:
+
+$$
+f(x) = \frac{1}{n} \sum_{i=1}^{n}y_i
+$$
+
+This ignores the input $x_i$ thus the result of prediction is bad
+
+*non-parameter attention pooling*
+
+The parameter here is untrainable. Pooling function *(Nadaraya-Watson Regression)*
+
+$$
+f(x)=\sum_{i=1}^{n}\frac{K(x-x_i)}{\sum_{j=1}^{n}K(x-x_j) } y_i
+$$
+
+$f(x)$ is query, $x_i,x_j$ are keys and $y_i$ is value
+
+$K$ is a kernel function
+
+The function is somehow like Bayes formula
+
+If a Gaussian kernel is used here:
+
+$$
+K(x) =\frac{1}{\sqrt{2\pi} } \exp(-\frac{x^2}{2})
+$$
+
+then
+
+$$
+f(x)=\sum_{i=1}^{n}\text{softmax}(-\frac{1}{2}(x-x_i)^2 ) y_i
+$$
+
+*parameter attention pooling*
+
+$$
+f(x)=\sum_{i=1}^{n}\text{softmax}(-\frac{1}{2}( (x-x_i)w )^2 ) y_i
+$$
+
+$w$ is trainable
+
+
+
 ## Part 4 NLP
 
 ## Part 5 CV
-
-## Appendix
-
-## 1. AutoGluon
-
-https://www.bilibili.com/video/BV1rh411m7Hb/
