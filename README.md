@@ -16,8 +16,6 @@ Resources(slides, books) &amp; My own notes of ML &amp; DL
 
 - [ ] Deep Learning: Andrew Ng
 
-- [ ] CS294A Deep Learning and Unsupervised Feature Learning(UFLDL): Andrew Ng et.al. Stanford University
-
 - [ ] CS231n [Deep Learning for Computer Vision](http://cs231n.stanford.edu/index.html): Feifei Li et.al, Stanford University
 
 - [ ] CS224n [Natural Language Processing with Deep Learning](https://web.stanford.edu/class/cs224n/): Chris Manning et.al, Stanford University
