@@ -3940,7 +3940,7 @@ class Seq2SeqDecoder(d2l.Decoder):
         return output, state
 ```
 
-3. block unrelevent items in a sentence
+3. block irrelevant items in a sentence
 
 ```py
 #@save
@@ -4227,8 +4227,6 @@ class AdditiveAttention(nn.Module):
         return torch.bmm(self.dropout(self.attention_weights), values)
 ```
 
-
-
 **scaled dot-product attention**
 
 When queries and keys are homodimensional vectors, the score function can be:
@@ -4282,6 +4280,12 @@ class DotProductAttention(nn.Module):
         self.attention_weights = masked_softmax(scores, valid_lens)
         return torch.bmm(self.dropout(self.attention_weights), values)
 ```
+
+#### c. seq2seq with attention
+
+**motivation**
+
+
 
 ## Part 4 NLP
 
