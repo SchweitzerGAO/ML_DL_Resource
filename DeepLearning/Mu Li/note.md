@@ -4360,13 +4360,73 @@ class Seq2SeqAttentionDecoder(AttentionDecoder):
         return self._attention_weights
 ```
 
+#### d. self attention & positional encoding
 
+The input is key, value and query.
 
+**compared with CNN,RNN**
 
+![](./image/205.PNG)
 
+Self attention has better parallelty but needs more calculation without position info saved.
 
+**positional encoding** 
 
+The (absolute) positional encoding matrix $\mathbf P$ is:
 
+$$
+\begin{split}
+\begin{aligned} 
+\mathbf P_{i, 2j} &= \sin\left(\frac{i}{10000^{2j/d}}\right),\\ \mathbf P_{i, 2j+1} &= \cos\left(\frac{i}{10000^{2j/d}}\right).
+\end{aligned}
+\end{split}
+$$
+
+*This is actually a 'float-based' representation of an integer:*
+
+![](./image/206.PNG)
+
+*implementation:*
+
+```py
+#@save
+class PositionalEncoding(nn.Module):
+    """位置编码"""
+    def __init__(self, num_hiddens, dropout, max_len=1000):
+        super(PositionalEncoding, self).__init__()
+        self.dropout = nn.Dropout(dropout)
+        # 创建一个足够长的P
+        self.P = torch.zeros((1, max_len, num_hiddens))
+        X = torch.arange(max_len, dtype=torch.float32).reshape(
+            -1, 1) / torch.pow(10000, torch.arange(
+            0, num_hiddens, 2, dtype=torch.float32) / num_hiddens)
+        self.P[:, :, 0::2] = torch.sin(X)
+        self.P[:, :, 1::2] = torch.cos(X)
+
+    def forward(self, X):
+        X = X + self.P[:, :X.shape[1], :].to(X.device)
+        return self.dropout(X)
+```
+
+Another (relative) positional learnable encoding method is:
+
+$$
+\begin{split}
+\begin{aligned}
+&\begin{bmatrix}
+ \cos(\delta \omega_j) & \sin(\delta \omega_j) \\  -\sin(\delta \omega_j) & \cos(\delta \omega_j) \\ \end{bmatrix}
+\begin{bmatrix} p_{i, 2j} \\  p_{i, 2j+1} \\ \end{bmatrix}\\
+=&\begin{bmatrix} \cos(\delta \omega_j) \sin(i \omega_j) + \sin(\delta \omega_j) \cos(i \omega_j) \\  -\sin(\delta \omega_j) \sin(i \omega_j) + \cos(\delta \omega_j) \cos(i \omega_j) \\ \end{bmatrix}\\
+=&\begin{bmatrix} \sin\left((i+\delta) \omega_j\right) \\  \cos\left((i+\delta) \omega_j\right) \\ \end{bmatrix}\\
+=&
+\begin{bmatrix} p_{i+\delta, 2j} \\  p_{i+\delta, 2j+
+1} \\ \end{bmatrix},
+\end{aligned}\end{split}
+$$
+
+This applies a rotation matrix to the start and gets the offset $\delta$ from the start
+
+#### e. multihead attention & Transformer
 
 ## Part 4 NLP
 
