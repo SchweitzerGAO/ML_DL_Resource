@@ -4605,8 +4605,6 @@ class TransformerEncoder(d2l.Encoder):
         return X
 ```
 
-
-
 - decoder block
 
 ```py
@@ -4701,5 +4699,37 @@ class TransformerDecoder(d2l.AttentionDecoder):
 `hidden_size` and `num_heads` are moreimportant parameters
 
 ## Part 4 NLP
+
+### 1. Pretrained Word Vector
+
+#### a. word2vec
+
+**Skip-gram**
+
+center word -> context words 
+
+
+
+**Continuous BOW**
+
+context words -> center word
+
+
+
+#### b. GloVe
+
+### 2. Insight of Language Models
+
+#### a. N-gram
+
+#### b. HMM
+
+#### c. CRF
+
+### 3. Pretrained LLMs
+
+#### a. GPT series
+
+#### b. BERT
 
 ## Part 5 CV
